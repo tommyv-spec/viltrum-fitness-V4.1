@@ -3450,8 +3450,8 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   }
   
   .training-image-wrapper {
-    max-block-size: 60cqh;
-    max-inline-size: 100%;
+    max-inline-size: min(40vw, 420px);  /* ✅ FIX: Larghezza basata su viewport */
+    max-block-size: min(40vw, 420px);   /* ✅ FIX: Altezza uguale per mantenere quadrato */
   }
 }
 
@@ -3470,8 +3470,8 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   }
   
   .training-image-wrapper {
-    max-inline-size: min(62vw, 500px);
-    max-block-size: 45cqh;
+    max-inline-size: min(62vw, 500px);  /* ✅ Larghezza */
+    max-block-size: min(62vw, 500px);   /* ✅ FIX: Altezza uguale per mantenere quadrato */
   }
   
   .login-card {
@@ -3522,8 +3522,8 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   }
   
   .training-image-wrapper {
-    max-block-size: 65cqh;
-    max-inline-size: min(36vw, 420px);
+    max-inline-size: min(36vw, 420px);  /* ✅ FIX: Larghezza basata su viewport */
+    max-block-size: min(36vw, 420px);   /* ✅ FIX: Altezza uguale per mantenere quadrato */
   }
   
   .login-card h3 {
@@ -3612,9 +3612,9 @@ body:has(#exercise-container[style*="display: flex"]) {
 
 /* Keep the square hero bounded inside its slice */
 .training-image-wrapper{
-  block-size: 42cqh;     /* part of the 50cqh slice above */
-  inline-size: auto;     /* width derives from height/aspect */
-  aspect-ratio: 1 / 1;   /* width follows from height */
+  inline-size: min(92vw, 560px);  /* ✅ FIX: Larghezza basata su viewport */
+  block-size: auto;                /* ✅ FIX: Altezza deriva da aspect-ratio */
+  aspect-ratio: 1 / 1;             /* ✅ FIX: Mantiene quadrato */
 }
 
 /* ~38% of container height for the login card */
@@ -3688,9 +3688,9 @@ body.no-scroll{
 
 /* Square hero inside the selector */
 .training-image-wrapper{
-  block-size: 38cqh;     /* stays inside the 44cqh slice */
-  inline-size: auto;
-  aspect-ratio: 1 / 1;
+  inline-size: min(92vw, 560px);  /* ✅ FIX: Larghezza basata su viewport */
+  block-size: auto;                /* ✅ FIX: Altezza deriva da aspect-ratio */
+  aspect-ratio: 1 / 1;             /* ✅ FIX: Mantiene quadrato */
   min-block-size: 0;
 }
 
