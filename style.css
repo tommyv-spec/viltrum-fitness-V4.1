@@ -335,7 +335,7 @@ main {
 
 /* Training selector container */
 .training-selector-container {
-  max-block-size: 50cqh;
+  /* ✅ FIX: Rimosso max-block-size per permettere al wrapper quadrato di espandersi */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -345,24 +345,23 @@ main {
 
 /* The square hero / focus image card */
 .training-image-wrapper {
-  position: relative; /* ✅ FIX: Necessario per i bottoni posizionati sopra */
-  max-inline-size: min(92vw, 560px); /* ✅ FIX: Uso vw invece di vi */
-  max-block-size: min(92vw, 560px); /* ✅ FIX: Stessa unità per mantenere quadrato */
+  position: relative;
+  width: min(92vw, 560px); /* ✅ Larghezza */
+  height: min(92vw, 560px); /* ✅ Altezza uguale = quadrato */
   aspect-ratio: 1 / 1;
-  width: auto;
-  height: auto;
   flex-shrink: 0;
-  overflow: hidden; /* ✅ FIX: Evita overflow dell'immagine */
+  overflow: hidden;
   border-radius: clamp(12px, 2vw, 18px);
-  margin: 0 auto; /* ✅ FIX: Forza centering orizzontale */
+  margin: 0 auto; /* ✅ CENTRA ORIZZONTALMENTE */
 }
 
 .training-base-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ✅ FIX: L'immagine copre tutto lo spazio */
+  object-fit: contain; /* ⚠️ TEST: Mostra TUTTA l'immagine per verificare se è quadrata */
   display: block; /* ✅ FIX: Rimuove spazio sotto l'immagine */
   object-position: center; /* ✅ Centrata perché wrapper e immagine sono entrambi quadrati */
+  background: #000; /* Per vedere eventuali spazi vuoti */
 }
 
 /* Login card (title + inputs + button) */
@@ -2550,7 +2549,7 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
 .training-selector-container {
   margin: 0;
   width: 100%;
-  max-width: 520px; /* Allow image to breathe on larger layouts */
+  max-width: 600px; /* ✅ FIX: Aumentato per contenere wrapper di 560px */
   padding: var(--training-selector-padding-y) 0;
   display: flex;
   flex-direction: column;
@@ -2558,12 +2557,7 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   justify-content: center;
   gap: clamp(16px, calc(var(--dvh-px) * 0.03), 24px);
   min-height: var(--training-selector-min-height);
-  max-height: min(
-    100%,
-    var(--training-image-max-height),
-    var(--training-selector-js-height, var(--training-image-max-height))
-  );
-  overflow: hidden;
+  /* ✅ FIX: Rimosso max-height e overflow hidden per mostrare l'immagine completa */
 }
 
 /*
@@ -2617,7 +2611,7 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
 .training-base-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* ✅ Riempie completamente il wrapper */
   display: block;
   object-position: center;
 }
@@ -3438,7 +3432,7 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   }
   
   .training-selector-container {
-    max-block-size: 75cqh;
+    /* ✅ FIX: Rimosso max-block-size */
     max-inline-size: 55cqw;
     flex: 1;
   }
@@ -3450,8 +3444,8 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   }
   
   .training-image-wrapper {
-    max-inline-size: min(40vw, 420px);  /* ✅ FIX: Larghezza basata su viewport */
-    max-block-size: min(40vw, 420px);   /* ✅ FIX: Altezza uguale per mantenere quadrato */
+    width: min(40vw, 420px);   /* ✅ FIX: Larghezza forzata */
+    height: min(40vw, 420px);  /* ✅ FIX: Altezza UGUALE */
   }
 }
 
@@ -3465,13 +3459,13 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   
   .training-selector-container {
     max-inline-size: min(70vw, 540px);
-    max-block-size: 52cqh;
+    /* ✅ FIX: Rimosso max-block-size */
     gap: clamp(12px, 2cqh, 20px);
   }
   
   .training-image-wrapper {
-    max-inline-size: min(62vw, 500px);  /* ✅ Larghezza */
-    max-block-size: min(62vw, 500px);   /* ✅ FIX: Altezza uguale per mantenere quadrato */
+    width: min(62vw, 500px);   /* ✅ FIX: Larghezza forzata */
+    height: min(62vw, 500px);  /* ✅ FIX: Altezza UGUALE */
   }
   
   .login-card {
@@ -3509,7 +3503,7 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   }
 
   .training-selector-container {
-    max-block-size: 80cqh;
+    /* ✅ FIX: Rimosso max-block-size */
     max-inline-size: 55cqw;
     flex: 1;
   }
@@ -3522,8 +3516,8 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   }
   
   .training-image-wrapper {
-    max-inline-size: min(36vw, 420px);  /* ✅ FIX: Larghezza basata su viewport */
-    max-block-size: min(36vw, 420px);   /* ✅ FIX: Altezza uguale per mantenere quadrato */
+    width: min(36vw, 420px);   /* ✅ FIX: Larghezza forzata */
+    height: min(36vw, 420px);  /* ✅ FIX: Altezza UGUALE */
   }
   
   .login-card h3 {
@@ -3600,9 +3594,7 @@ body:has(#exercise-container[style*="display: flex"]) {
 }
 
 .training-selector-container{
-  /* ~50% of container height for the image/select area */
-  flex: 0 0 50cqh;
-  max-block-size: 50cqh;
+  /* ✅ FIX: Rimosso flex e max-block-size per permettere espansione naturale */
   min-block-size: 0; /* allow flexbox to actually clamp */
   display: flex;
   flex-direction: column;
@@ -3612,9 +3604,9 @@ body:has(#exercise-container[style*="display: flex"]) {
 
 /* Keep the square hero bounded inside its slice */
 .training-image-wrapper{
-  inline-size: min(92vw, 560px);  /* ✅ FIX: Larghezza basata su viewport */
-  block-size: auto;                /* ✅ FIX: Altezza deriva da aspect-ratio */
-  aspect-ratio: 1 / 1;             /* ✅ FIX: Mantiene quadrato */
+  width: min(92vw, 560px);   /* ✅ FIX: Larghezza forzata */
+  height: min(92vw, 560px);  /* ✅ FIX: Altezza UGUALE */
+  aspect-ratio: 1 / 1;
 }
 
 /* ~38% of container height for the login card */
@@ -3676,8 +3668,7 @@ body.no-scroll{
 
 /* Selector block */
 .training-selector-container{
-  flex: 0 0 44cqh;
-  max-block-size: 44cqh;
+  /* ✅ FIX: Rimosso flex e max-block-size per permettere espansione naturale */
   min-block-size: 0;
   display: flex;
   flex-direction: column;
@@ -3688,18 +3679,18 @@ body.no-scroll{
 
 /* Square hero inside the selector */
 .training-image-wrapper{
-  inline-size: min(92vw, 560px);  /* ✅ FIX: Larghezza basata su viewport */
-  block-size: auto;                /* ✅ FIX: Altezza deriva da aspect-ratio */
-  aspect-ratio: 1 / 1;             /* ✅ FIX: Mantiene quadrato */
+  width: min(92vw, 560px);   /* ✅ FIX: Larghezza forzata */
+  height: min(92vw, 560px);  /* ✅ FIX: Altezza UGUALE */
+  aspect-ratio: 1 / 1;
   min-block-size: 0;
 }
 
-/* ✅ FIX: Immagine riempie completamente il wrapper senza spazi */
+/* ✅ Immagine riempie completamente il wrapper */
 .training-base-image{
   width: 100%;
   height: 100%;
   object-fit: cover !important;
-  object-position: center; /* ✅ Centrata perché wrapper e immagine sono entrambi quadrati */
+  object-position: center;
   display: block;
 }
 
