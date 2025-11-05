@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Workout App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Header adjustments for login button */
+    header {
+      display: grid !important;
+      grid-template-columns: 1fr auto 1fr !important;
+      align-items: center !important;
+      gap: 15px !important;
+    }
+
+    header img {
+      grid-column: 2 !important;
+      justify-self: center !important;
+      height: auto !important;
+      width: auto !important;
+      max-width: 55vw !important;
+      max-height: 12vh !important;
+      position: relative !important;
+      z-index: 1;
+    }
+
+    /* LOGIN BUTTON IN HEADER */
+    .header-login-btn {
+      grid-column: 3 !important;
+      justify-self: end !important;
+      position: relative !important;
+      padding: 10px 20px;
+      background: #FFFFFF;
+      border: 2px solid #FFFFFF;
+      border-radius: 10px;
+      color: #000000;
+      font-family: 'Staatliches', sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .header-login-btn:hover {
+      background: #B0B0B0;
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+    }
+
+    .header-login-btn:active {
+      transform: scale(0.98);
+    }
+
+    .header-login-btn svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* DASHBOARD BUTTON IN HEADER */
+    .header-dashboard-btn {
+      grid-column: 3 !important;
+      justify-self: end !important;
+      position: relative !important;
+      padding: 10px 20px;
+      background: #FFFFFF;
+      border: 2px solid #FFFFFF;
+      border-radius: 10px;
+      color: #000000;
+      font-family: 'Staatliches', sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+      z-index: 100;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .header-dashboard-btn:hover {
+      background: #B0B0B0;
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+    }
+
+    .header-dashboard-btn:active {
+      transform: scale(0.98);
+    }
+
+    .header-dashboard-btn svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* LOGIN MODAL */
+    .login-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-modal.active {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .login-modal-content {
+      background: linear-gradient(135deg, rgba(77, 77, 77, 0.95), rgba(77, 77, 77, 0.8));
+      border: 2px solid #7D7D7D;
+      border-radius: 20px;
+      padding: 45px 25px 25px 25px;
+      width: 100%;
+      max-width: 350px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      color: #FFFFFF;
+      font-size: 18px;
+      font-weight: 300;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      z-index: 100;
+      font-family: Arial, sans-serif;
+      padding: 0;
+    }
+
+    .login-modal-close:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: scale(1.08);
+    }
+
+    .login-modal-close:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .login-modal h3 {
+      color: #FFFFFF;
+      font-size: 26px;
+      text-align: center;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    .login-modal input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #7D7D7D;
+      border-radius: 10px;
+      color: #FFFFFF;
+      font-size: 15px;
+      font-family: 'Staatliches', sans-serif;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+
+    .login-modal input::placeholder {
+      color: #B0B0B0;
+      opacity: 0.8;
+    }
+
+    .login-modal input:focus {
+      outline: none;
+      border-color: #FFFFFF;
+      background: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    }
+
+    .login-modal button:not(.login-modal-close) {
+      width: 100%;
+      padding: 12px;
+      background: #FFFFFF;
+      color: #000000;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      font-family: 'Staatliches', sans-serif;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+    }
+
+    .login-modal button:not(.login-modal-close):hover {
+      background: #B0B0B0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .login-modal button:not(.login-modal-close):active {
+      transform: translateY(0);
+    }
+
+    #login-error {
+      color: #ff6b6b;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 13px;
+      min-height: 18px;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      header {
+        gap: 10px !important;
+      }
+
+      header img {
+        max-width: 60vw !important;
+        max-height: 10vh !important;
+      }
+
+      .header-login-btn {
+        padding: 8px 14px;
+        font-size: 14px;
+        gap: 6px;
+      }
+
+      .header-login-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .header-dashboard-btn {
+        padding: 8px 14px;
+        font-size: 14px;
+        gap: 6px;
+      }
+
+      .header-dashboard-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .login-modal-content {
+        padding: 25px 20px 20px 20px;
+        max-width: 90%;
+      }
+
+      .login-modal h3 {
+        font-size: 24px;
+        margin-bottom: 18px;
+      }
+      
+      .login-modal-close {
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+        top: 10px;
+        right: 10px;
+      }
+
+      .login-modal input {
+        padding: 11px 12px;
+        font-size: 14px;
+      }
+
+      .login-modal button {
+        padding: 11px;
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-login-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      .header-dashboard-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+  <header>
+    <img src="https://drive.google.com/thumbnail?id=1va6OkGp9yAHDJBfeDM3npwqlJJoLUh5C" alt="Logo" />
+    <audio controls src="https://drive.google.com/uc?export=download&id=1L8OmsZjgrVvHR0vyfSDhaueR1rweGtH7"></audio>
+    
+    <!-- LOGIN BUTTON (shown when logged out) -->
+    <button class="header-login-btn" id="header-login-btn" style="display: none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+        <polyline points="10 17 15 12 10 7"/>
+        <line x1="15" y1="12" x2="3" y2="12"/>
+      </svg>
+      <span>Login</span>
+    </button>
+    
+    <!-- DASHBOARD BUTTON (shown when logged in) -->
+    <a href="dashboard.html" class="header-dashboard-btn" id="header-dashboard-btn" style="display: none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Dashboard</span>
+    </a>
+  </header>
+
+  <!-- LOGIN MODAL -->
+  <div class="login-modal" id="login-modal">
+    <div class="login-modal-content">
+      <button class="login-modal-close" id="login-modal-close">×</button>
+      <h3>Login</h3>
+      <input type="text" placeholder="Username" id="username" autocomplete="username">
+      <input type="password" placeholder="Password" id="password" autocomplete="current-password">
+      <button id="login-button">Accedi</button>
+      <p id="login-error"></p>
+    </div>
+  </div>
+
+  <main class="page-safe screen">
+    <!-- TRAINING SELECTOR (NO LOGIN CARD) -->
+    <div id="training-selector" data-reach-bottom="true">
+      <div class="training-selector-container">
+        <p class="selector-instruction">Tocca per selezionare il tuo focus di allenamento</p>
+        <div class="training-image-wrapper">
+          <img src="https://drive.google.com/thumbnail?id=1M9SZSKuOO6FNnM2pi0ECOiHGv1SDFxYQ" alt="Training Options" class="training-base-image" />
+          
+          <div class="training-zone nutrition-zone" data-training="nutrition">
+            <span class="zone-label">NUTRITION</span>
+            <div class="ripple-container">
+              <div class="ripple-ring ripple-1"></div>
+              <div class="ripple-ring ripple-2"></div>
+              <span class="tap-text">TOCCA</span>
+            </div>
+          </div>
+          
+          <div class="training-zone aerobic-zone" data-training="aerobic">
+            <span class="zone-label">AEROBIC<br>TRAINING</span>
+            <div class="ripple-container">
+              <div class="ripple-ring ripple-1"></div>
+              <div class="ripple-ring ripple-2"></div>
+              <span class="tap-text">TOCCA</span>
+            </div>
+          </div>
+          
+          <div class="training-zone muscle-zone" data-training="muscle">
+            <span class="zone-label">MORE<br>MUSCLE</span>
+            <div class="ripple-container">
+              <div class="ripple-ring ripple-1"></div>
+              <div class="ripple-ring ripple-2"></div>
+              <span class="tap-text">TOCCA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Sheet -->
+      <div id="training-bottom-sheet" class="bottom-sheet">
+        <div class="bottom-sheet-overlay"></div>
+        <div class="bottom-sheet-panel">
+          <div class="bottom-sheet-handle"></div>
+          <div class="bottom-sheet-content">
+            <h3 id="sheet-title">Nutrizione</h3>
+            
+            <div class="carousel-container">
+              <div class="carousel-wrapper">
+                <div class="carousel-track" id="carousel-track"></div>
+                <!-- Overlay for main text when expanded -->
+                <div class="carousel-text-overlay" id="carousel-text-overlay" style="display: none;">
+                  <p id="overlay-text"></p>
+                </div>
+              </div>
+              <button class="carousel-btn prev" id="carousel-prev" aria-label="Previous">‹</button>
+              <button class="carousel-btn next" id="carousel-next" aria-label="Next">›</button>
+              <div class="carousel-dots" id="carousel-dots"></div>
+            </div>
+            
+            <!-- Main text that syncs with carousel -->
+            <p id="sheet-main-text" class="sheet-main-text">Testo principale</p>
+            
+            <button id="details-toggle-btn" class="details-toggle-btn">
+              <span>Altri dettagli</span>
+              <span class="toggle-icon">↓</span>
+            </button>
+            
+            <div id="details-section" class="details-section" style="display: none;">
+              <div class="detail-item" id="detail-1">
+                <h4>Traccia Macronutrienti</h4>
+                <p>Monitora proteine, carboidrati e grassi per risultati ottimali</p>
+              </div>
+              <div class="detail-item" id="detail-2">
+                <h4>Piano Personalizzato</h4>
+                <p>Ricette e piani pasto basati sui tuoi obiettivi specifici</p>
+              </div>
+              <div class="detail-item" id="detail-3">
+                <h4>Progressi Visibili</h4>
+                <p>Analisi dettagliata delle tue abitudini alimentari nel tempo</p>
+              </div>
+            </div>
+            
+            <div class="sheet-actions">
+              <button id="sheet-start-btn" class="sheet-btn primary">Inizia Allenamento</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  </div><!-- /.app -->
+
+  <audio id="beep-sound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
+  <audio id="transition-sound" src="https://actions.google.com/sounds/v1/emergency/emergency_siren_short_burst.ogg" preload="auto"></audio>
+
+  <script src="viewport.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // LOGIN MODAL CONTROLS
+    const loginModal = document.getElementById('login-modal');
+    const headerLoginBtn = document.getElementById('header-login-btn');
+    const modalCloseBtn = document.getElementById('login-modal-close');
+    const loginButton = document.getElementById('login-button');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginError = document.getElementById('login-error');
+    const sheetStartBtn = document.getElementById('sheet-start-btn');
+
+    // Open modal
+    headerLoginBtn.addEventListener('click', () => {
+      loginModal.classList.add('active');
+      setTimeout(() => usernameInput.focus(), 300);
+    });
+
+    // Close modal
+    modalCloseBtn.addEventListener('click', () => {
+      loginModal.classList.remove('active');
+    });
+
+    // Close on overlay click
+    loginModal.addEventListener('click', (e) => {
+      if (e.target === loginModal) {
+        loginModal.classList.remove('active');
+      }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && loginModal.classList.contains('active')) {
+        loginModal.classList.remove('active');
+      }
+    });
+
+    // Enter key on password
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+
+    // Enter key on username
+    usernameInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') passwordInput.focus();
+    });
+
+    // LOGIN FUNCTION
+    function handleLogin() {
+      warmUpServer();
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!username || !password) {
+        loginError.textContent = "Inserisci username e password.";
+        loginError.style.display = "block";
+        return;
+      }
+
+      loginError.textContent = "Accesso in corso...";
+      loginError.style.color = "#FFD700";
+      loginButton.disabled = true;
+
+      fetch(`https://script.google.com/macros/s/AKfycbycit1jI48zkCHmMp1KG-IMoyXIV25UvQqOmUW8alUKOoieFCMZxFRPbHcMisjjlBQYiw/exec?username=${username}&password=${password}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "success") {
+            sessionStorage.setItem("auth", "true");
+            sessionStorage.setItem("user", username);
+            localStorage.setItem("loggedUser", username);
+            
+            loginError.textContent = "Accesso riuscito!";
+            loginError.style.color = "#4CAF50";
+            
+            setTimeout(() => {
+              window.location.href = "dashboard.html";
+            }, 500);
+          } else {
+            loginError.textContent = data.message;
+            loginError.style.color = "#ff6b6b";
+            loginButton.disabled = false;
+          }
+        })
+        .catch(err => {
+          console.error("Login error", err);
+          loginError.textContent = "Errore durante il login.";
+          loginError.style.color = "#ff6b6b";
+          loginButton.disabled = false;
+        });
+    }
+
+    loginButton.addEventListener('click', handleLogin);
+
+    // TRAINING SELECTOR: When "Inizia Allenamento" is clicked, open login modal
+    sheetStartBtn?.addEventListener('click', () => {
+      // Store selected training
+      const selectedTraining = sessionStorage.getItem('selectedTraining');
+      
+      // Close bottom sheet
+      document.getElementById('training-bottom-sheet')?.classList.remove('active');
+      
+      // Open login modal
+      loginModal.classList.add('active');
+      setTimeout(() => usernameInput.focus(), 300);
+    });
+  </script>
+</body>
+</html>
