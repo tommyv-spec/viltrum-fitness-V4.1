@@ -346,8 +346,8 @@ main {
 /* The square hero / focus image card */
 .training-image-wrapper {
   position: relative;
-  width: min(92vw, 560px); /* ✅ Larghezza */
-  height: min(92vw, 560px); /* ✅ Altezza uguale = quadrato */
+  width: min(80vw, 480px); /* ✅ Ridotto: 80% viewport, max 480px */
+  height: min(80vw, 480px); /* ✅ Ridotto: 80% viewport, max 480px */
   aspect-ratio: 1 / 1;
   flex-shrink: 0;
   overflow: hidden;
@@ -3604,8 +3604,8 @@ body:has(#exercise-container[style*="display: flex"]) {
 
 /* Keep the square hero bounded inside its slice */
 .training-image-wrapper{
-  width: min(92vw, 560px);   /* ✅ FIX: Larghezza forzata */
-  height: min(92vw, 560px);  /* ✅ FIX: Altezza UGUALE */
+  width: min(80vw, 480px);   /* ✅ Ridotto */
+  height: min(80vw, 480px);  /* ✅ Ridotto */
   aspect-ratio: 1 / 1;
 }
 
@@ -3679,8 +3679,8 @@ body.no-scroll{
 
 /* Square hero inside the selector */
 .training-image-wrapper{
-  width: min(92vw, 560px);   /* ✅ FIX: Larghezza forzata */
-  height: min(92vw, 560px);  /* ✅ FIX: Altezza UGUALE */
+  width: min(80vw, 480px);   /* ✅ Ridotto */
+  height: min(80vw, 480px);  /* ✅ Ridotto */
   aspect-ratio: 1 / 1;
   min-block-size: 0;
 }
