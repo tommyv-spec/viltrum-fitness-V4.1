@@ -3016,7 +3016,7 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: env(safe-area-inset-bottom, 0px); /* ✅ CRITICAL: Sopra la barra Safari */
   background: var(--color-dark-grey);
   border-radius: clamp(20px, 5vw, 24px) clamp(20px, 5vw, 24px) 0 0;
   /* Non andare sotto la barra di Safari */
