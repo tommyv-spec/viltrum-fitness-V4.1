@@ -3083,9 +3083,11 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
 .carousel-container {
   position: relative;
   width: 100%;
-  flex: 1 1 var(--bottom-sheet-carousel-height);
-  max-height: var(--bottom-sheet-carousel-height);
-  min-height: clamp(140px, calc(var(--bottom-sheet-max-height) * 0.35), 260px);
+  /* ✅ FIX: dimensioni esplicite per evitare problemi di flexbox layout su Safari */
+  flex: 0 0 clamp(160px, calc(var(--dvh-px) * 0.32), 280px);
+  height: clamp(160px, calc(var(--dvh-px) * 0.32), 280px);
+  max-height: clamp(160px, calc(var(--dvh-px) * 0.32), 280px);
+  min-height: clamp(160px, calc(var(--dvh-px) * 0.32), 280px);
   overflow: hidden;
   border-radius: clamp(10px, 2.5vw, 12px);
 }
