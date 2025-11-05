@@ -345,18 +345,23 @@ main {
 
 /* The square hero / focus image card */
 .training-image-wrapper {
+  position: relative; /* ✅ FIX: Necessario per i bottoni posizionati sopra */
   max-inline-size: min(92vi, 560px);
   max-block-size: 42cqh; /* Gets a bounded slice of the page */
   aspect-ratio: 1 / 1;
   width: auto;
   height: auto;
   flex-shrink: 0;
+  overflow: hidden; /* ✅ FIX: Evita overflow dell'immagine */
+  border-radius: clamp(12px, 2vw, 18px);
 }
 
 .training-base-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* ✅ FIX: L'immagine copre tutto lo spazio */
+  display: block; /* ✅ FIX: Rimuove spazio sotto l'immagine */
+  object-position: center;
 }
 
 /* Login card (title + inputs + button) */
@@ -2652,7 +2657,7 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
 .aerobic-zone {
   top: 0;
   left: 30%;
-  width: 72%;
+  width: 70%; /* ✅ FIX: 30% + 70% = 100% */
   height: 43%;
   background: linear-gradient(to bottom, rgba(125, 125, 125, 0.05), transparent);
   border-bottom: 1px solid rgba(125, 125, 125, 0.2);
@@ -2661,7 +2666,7 @@ body:has(#login-screen:not([style*="display: none"])) #bottom-buttons-container 
 .muscle-zone {
   top: 43%;
   left: 30%;
-  width: 72%;
+  width: 70%; /* ✅ FIX: 30% + 70% = 100% */
   height: 57%;
   background: linear-gradient(to bottom, rgba(77, 77, 77, 0.05), transparent);
 }
@@ -3688,11 +3693,11 @@ body.no-scroll{
   min-block-size: 0;
 }
 
-/* Never crop the base image */
+/* ✅ FIX: Immagine riempie completamente il wrapper senza spazi */
 .training-base-image{
   width: 100%;
   height: 100%;
-  object-fit: contain !important;
+  object-fit: cover !important;
   object-position: center;
   display: block;
 }
