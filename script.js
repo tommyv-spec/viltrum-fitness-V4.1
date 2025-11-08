@@ -1,32 +1,13 @@
 /* ============================================================
    Workout App — Unified Script (Audio-First, End-to-End Hooks)
-   Date: 2025-10-31
+   Date: 2025-11-07
+   Updated: Added support for new userWorkouts format with scadenza
    Notes:
    - Contains the complete, working audio layer (Cloud TTS, Synth TTS,
      Beppe pre-recorded, Beep/Transition SFX) + iOS unlock.
    - Includes playExercise/startExerciseTimer/resumeTimer and essential
      app wiring to ensure audio cues fire at 60s/30s/10s/5s and boundaries.
-   - DOM ids required in your HTML:
-       #soundMode-setup, #soundMode,
-       #beep-sound, #transition-sound,
-       #exercise-name, #exercise-gif, #timer, #next-exercise-preview,
-       #progress-fill, #progress-percentage, #progress-block,
-       #progress-round, #progress-exercise,
-       #setup-screen, header, #start-button-bottom, #exercise-container,
-       #topbar-select, #setup-settings-button,
-       #workoutSelect, #workout-preview, #exercise-grid,
-       #instructions-section, #instructions-text, #instructions-image,
-       #materiale-section, #materiale-list,
-       #start-point-selector, #start-phase-select, #start-round-container,
-       #start-round-select, #start-exercise-container, #start-exercise-select,
-       #reset-start-point,
-       #pause-button, #prev-exercise-button, #next-exercise-button,
-       #settings-button, #settings-popup, #close-settings,
-       #exit-workout-button, #setup-settings-button, #setup-settings-popup, #close-setup-settings,
-       #instructions-header, #instructions-content, #instructions-collapse-icon,
-       #login-screen, #main-app, #username, #password, #login-error, #login-button, #logout-button,
-       #start-button
-     Ensure these IDs exist or guard calls accordingly.
+   - UPDATED: Now handles userWorkouts format: { scadenza, workouts: [...] }
    ============================================================ */
 
 /* -------------------- Global State -------------------- */
@@ -211,16 +192,6 @@ function __bindLoginViewportHandlers() {
 }
 
 document.addEventListener('DOMContentLoaded', __bindLoginViewportHandlers);
-
-/* OPTIONAL: when you switch from login to main app, call this to release lock
-   (example)
-   function goToMainApp(){
-     document.getElementById('login-screen').style.display = 'none';
-     document.getElementById('main-app').style.display = '';
-     __applyLoginScrollLock(); // releases lock automatically
-   }
-*/
-
 
 /* -------------------- Training Selector (Login Screen) -------------------- */
 let selectedTrainingType = null;
@@ -1610,7 +1581,7 @@ async function playExercise(index, exercises, resumeTime = null) {
       : null;
 
   if (sayName) {
-    // guard so a stuck engine on Android can’t freeze future calls
+    // guard so a stuck engine on Android can't freeze future calls
     const guard = new Promise(res => setTimeout(res, 2500));
     Promise.race([sayName(), guard]).catch(() => {});
   }
@@ -1805,7 +1776,7 @@ function login() {
     return;
   }
 
-  fetch(`https://script.google.com/macros/s/AKfycbycit1jI48zkCHmMp1KG-IMoyXIV25UvQqOmUW8alUKOoieFCMZxFRPbHcMisjjlBQYiw/exec?username=${username}&password=${password}`)
+  fetch(`https://script.google.com/macros/s/AKfycbwh2bCZQ87n4WMJwQrsZq1m6am695f5dIOdoGQBiVM3V6tyaj_RveT47x1NpO785dO_Ew/exec?username=${username}&password=${password}`)
     .then(res => res.json())
     .then(data => {
       if (data.status === "success") {
@@ -1854,11 +1825,21 @@ function logout() {
 }
 
 function loadUserData(username) {
-  fetch("https://script.google.com/macros/s/AKfycbycit1jI48zkCHmMp1KG-IMoyXIV25UvQqOmUW8alUKOoieFCMZxFRPbHcMisjjlBQYiw/exec")
+  fetch("https://script.google.com/macros/s/AKfycbwh2bCZQ87n4WMJwQrsZq1m6am695f5dIOdoGQBiVM3V6tyaj_RveT47x1NpO785dO_Ew/exec")
     .then(res => res.json())
     .then(data => {
       workouts = data.workouts;
-      const userWorkouts = data.userWorkouts[username] || [];
+      
+      // ✅ UPDATED: Handle new userWorkouts structure with scadenza and workouts array
+      const userData = data.userWorkouts[username] || { scadenza: "", workouts: [] };
+      const userWorkouts = userData.workouts || [];
+      const scadenza = userData.scadenza || "";
+      
+      // Optional: Log scadenza for debugging or future use
+      if (scadenza) {
+        console.log(`User ${username} scadenza: ${scadenza}`);
+      }
+      
       const select = document.getElementById("workoutSelect");
       if (!select) return;
       select.innerHTML = "";
